@@ -25,4 +25,4 @@ jobs:
       - name: Run a one-line script
         run: |
           echo "Creating file with secret : touch ${{ secrets.AWS_ROLE }}"
-          ls *
+          ls
