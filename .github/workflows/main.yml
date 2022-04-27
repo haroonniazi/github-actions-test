@@ -9,7 +9,11 @@ on:
         description: 'Environment to run deployment against'
         type: choice
         required: true
-        options: [DEV, PRE, PROD]
+        options: [DEV, PRE, PROD]        
+
+permissions:
+  id-token: write
+  contents: read
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,16 +25,17 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Configuring AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: arn:aws:iam::947060712114:role/cdf-child-dev
+          role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: eu-west-1
           role-session-name: GithubActions
-      - run: aws sts get-caller-identity
           
-      # Configuring aws cli
+      - name: Validate Caller Identity
+        run: |
+          aws sts get-caller-identity
+          
       - name: Configure AWS CLI
         env:
           AWS_PROFILE_NAME: AWS-CDF-${{ github.event.inputs.environment }}
@@ -38,7 +43,7 @@ jobs:
           aws configure set_aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
           aws configure set_aws_access_key_id $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
           aws configure set_aws_access_key_id $AWS_SESSION_TOKEN --profile devops $AWS_PROFILE_NAME
-      #          
+          
       - name: Listing Code Build Projects
         run: |
           aws codebuild list-projects --profile $AWS_PROFILE_NAME
