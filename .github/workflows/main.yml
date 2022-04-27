@@ -23,8 +23,10 @@ jobs:
     steps:
       # Runs a single command using the runners shell
       - name: Run a one-line script
+        env:
+          FILE_NAME: ${{ secrets.AWS_ROLE }}
         run: |
           echo "Creating file with secret .."
-          touch ${{ secrets.AWS_ROLE }}
+          touch $FILE_NAME
       - name: Running ls command
         run: ls
