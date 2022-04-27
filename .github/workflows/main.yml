@@ -15,6 +15,9 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  AWS_PROFILE_NAME: AWS-CDF-${{ github.event.inputs.environment }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -37,8 +40,6 @@ jobs:
           aws sts get-caller-identity
           
       - name: Configure AWS CLI
-        env:
-          AWS_PROFILE_NAME: AWS-CDF-${{ github.event.inputs.environment }}
         run: |
           aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
           aws configure set aws_access_key_id $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
