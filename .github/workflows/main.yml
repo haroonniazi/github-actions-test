@@ -9,9 +9,9 @@ on:
     inputs:
       environment:
         description: 'Environment to run deployment against'
-        type: environment
+        type: choice
         required: true
-        default: dev
+        options: [dev, preprod, prod]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
