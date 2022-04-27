@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 env:
-  AWS_PROFILE_NAME: AWS-CDF-${{ github.event.inputs.environment }}
+  AWS_PROFILE_NAME: CDF-DEVOPS-${{ github.event.inputs.environment }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
