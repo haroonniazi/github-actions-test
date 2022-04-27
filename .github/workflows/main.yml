@@ -24,6 +24,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          echo "Creating file with secret : touch ${{ secrets.AWS_ROLE }}"
+          echo "Creating file with secret .."
+          touch ${{ secrets.AWS_ROLE }}
       - name: Running ls command
         run: ls
