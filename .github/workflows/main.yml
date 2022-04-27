@@ -27,6 +27,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: eu-west-1
+          audience: sts.amazonaws.com
           
       # Configuring aws cli
       - name: Configure AWS CLI
