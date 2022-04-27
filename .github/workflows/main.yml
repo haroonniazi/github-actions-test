@@ -9,7 +9,14 @@ on:
         description: 'Environment to run deployment against'
         type: choice
         required: true
-        options: [DEV, PRE, PROD]
+        options: [DEV, PRE, PROD]        
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_PROFILE_NAME: CDF-DEVOPS-${{ github.event.inputs.environment }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,13 +28,23 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-region: eu-west-1
+          role-session-name: GithubActions
+          
+      - name: Validate Caller Identity
         run: |
-          echo "Creating file with secret : touch ${{ secrets.AWS_ROLE }}"
-          ls *
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+          aws sts get-caller-identity
+          
+      - name: Configure AWS CLI
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile $AWS_PROFILE_NAME
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile $AWS_PROFILE_NAME
+          aws configure set aws_session_token $AWS_SESSION_TOKEN --profile $AWS_PROFILE_NAME
+          
+      - name: Listing Code Build Projects
+        run: |
+          aws codebuild list-projects --profile $AWS_PROFILE_NAME
