@@ -24,9 +24,5 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          echo "Environment is : ${{ secrets.AWS_ROLE }}"
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "Creating file with secret : touch ${{ secrets.AWS_ROLE }}"
+          ls *
