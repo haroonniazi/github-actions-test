@@ -18,16 +18,15 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Environment
-    environment: "arn:aws:iam::947060712114:role/cdf-child-dev"
+    environment: ${{ github.event.inputs.environment }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Configuring AWS Credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-to-assume: "arn:aws:iam::947060712114:role/cdf-child-dev"
           aws-region: eu-west-1
-          audience: sts.amazonaws.com
           
       # Configuring aws cli
       - name: Configure AWS CLI
