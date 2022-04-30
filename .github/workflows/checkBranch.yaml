@@ -19,9 +19,9 @@ jobs:
         run: echo $GITHUB_REF_NAME
         
       - name: Checks Branch master
-        if: github.ref == 'refs/heads/master'
+        if: github.refname == 'master'
         run: echo Branch is master
       
       - name: Checks Branch dev
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'dev'
         run: echo Branch is dev
