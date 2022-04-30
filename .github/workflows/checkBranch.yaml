@@ -15,10 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Branch Name
+        run: echo $GITHUB_REF_NAME
       - name: Checks Branch master
-        if: contains($GITHUB_REF_NAME, 'master')
+        if: contains('$GITHUB_REF_NAME', 'master')
         run: echo Branch is master
       
       - name: Checks Branch dev
-        if: contains($GITHUB_REF_NAME, 'dev')
+        if: contains('$GITHUB_REF_NAME', 'dev')
         run: echo Branch is dev
