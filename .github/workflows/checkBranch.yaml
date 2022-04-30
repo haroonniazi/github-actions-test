@@ -19,9 +19,9 @@ jobs:
         run: echo $GITHUB_REF_NAME
         
       - name: Checks Branch master
-        if: ${{ $GITHUB_REF_NAME == 'master' }}
+        if: ${{ env.GITHUB_REF_NAME == 'master' }}
         run: echo Branch is master
       
       - name: Checks Branch dev
-        if: ${{ $GITHUB_REF_NAME == 'dev' }}
+        if: ${{ env.GITHUB_REF_NAME == 'dev' }}
         run: echo Branch is dev
